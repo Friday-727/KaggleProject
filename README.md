@@ -1,117 +1,108 @@
 ![](UTA-DataScience-Logo.png)
 
-# Project Title
+# Predicting Lead Contamination in Water Using Quantified Physical and Chemical Characterizations
 
-* **One Sentence Summary** Ex: This repository holds an attempt to apply LSTMs to Stock Market using data from
-"Get Rich" Kaggle challenge (provide link). 
+* This repository holds an attempt to apply a Neural Network Model to predict high or low levels of Lead contamination based on EPA threshold of lead contamination in drinking water on the Kaggle
+* dataset: https://www.kaggle.com/datasets/khushikyad001/water-pollution-and-disease 
 
 ## Overview
 
-* This section could contain a short paragraph which include the following:
-  * **Definition of the tasks / challenge**  Ex: The task, as defined by the Kaggle challenge is to use a time series of 12 features, sampled daily for 1 month, to predict the next day's price of a stock.
-  * **Your approach** Ex: The approach in this repository formulates the problem as regression task, using deep recurrent neural networks as the model with the full time series of features as input. We compared the performance of 3 different network architectures.
-  * **Summary of the performance achieved** Ex: Our best model was able to predict the next day stock price within 23%, 90% of the time. At the time of writing, the best performance on Kaggle of this metric is 18%.
+  * **Definition of the tasks / challenge** The task, is to use a 19 features to predict if the water would have a higher contamination of lead, greater than or equal to 15.0 ppm versus low contamination of lead, lower than 15.0 ppm
+    
+  * **Your approach** The approach in this repository formulates the problem as classification task, using deep sequential neural networks as the model with the 19 numerical features as input. We compared the performance of 4 different network architectures, and 5 different learning rates.
+  * **Summary of the performance achieved** Our best model was able to correctly classify high versus low lead contaminated water 77.3% of the time. The overall accuracy of this classifier, after running 5 repeats of 5 randomized batches (kf split) is 74.8%
 
 ## Summary of Workdone
 
-Include only the sections that are relevant an appropriate.
-
 ### Data
 
-* Data:
-  * Type: For example
-    * Input: medical images (1000x1000 pixel jpegs), CSV file: image filename -> diagnosis
-    * Input: CSV file of features, output: signal/background flag in 1st column.
-  * Size: How much data?
-  * Instances (Train, Test, Validation Split): how many data points? Ex: 1000 patients for training, 200 for testing, none for validation
+* Data: https://www.kaggle.com/datasets/khushikyad001/water-pollution-and-disease 
+  * Type: numeric and categorical
+    * Input: CSV file of features
+    * output: 1 feature selected from CSV file of features that would be a good indicator of good versus poor water quality
+  * Size:
+    * Number of Rows: 2,000
+    * Number of Columns: 24
+  * Instances (Train, Test, Validation Split): Train/Test/Validation split used was 70/10/20 1400 water samples for training, 200 samples for testing, and 400 samples for validation
 
 #### Preprocessing / Clean up
 
-* Describe any manipulations you performed to the data.
+* NaN values for water treatment type were equivalent to no treatment to water were conducted, thus we needed to impute these NaN values in this feature (column) to none
 
 #### Data Visualization
 
-Show a few visualization of the data and say a few words about what you see.
+<img width="823" height="799" alt="image" src="https://github.com/user-attachments/assets/a0fff5bb-4a6c-4c7d-aba4-9e1c09829401" />
+* Comparing features with each other with the two populations of high and low concentrations of lead in the water samples revealed that none of the features would directly indicate differences in distribution of data within these populations. This is why we went with a neural network model.
+
+<img width="442" height="393" alt="image" src="https://github.com/user-attachments/assets/833886c1-2a53-4066-8f99-b5aed8fb17b1" />
+<img width="448" height="394" alt="image" src="https://github.com/user-attachments/assets/8b359f5a-b079-4e1f-880e-a45bae9a4933" />
+* These correlation and covariance matrices also indicate that all of the features are nearly unique, meaning that one feature does not directly compare to another. All features are important.
 
 ### Problem Formulation
 
-* Define:
+* Define: Can we predict high and low lead contamination levels in water given that no features clearly indicate similarities with other features? 
   * Input / Output
+   * Input: Numerical features that were normalized using Sklearn's MinMaxScaler()
+   * Output: 0 = low concentration and 1 = high concentration
   * Models
-    * Describe the different models you tried and why.
-  * Loss, Optimizer, other Hyperparameters.
+    * We tried a deep neural network model because all features were deemed important (more specifically none could be eliminated without losing some information) and there was no reason to select features because there were only 19 total variables (not too large as to slow down computation significantly)
+  * Loss, Optimizer, other Hyperparameters
+   * f1_score
+   * network structure
+   * learning rate
+   * model.score --> accuracy to the ground truth
 
 ### Training
 
-* Describe the training:
-  * How you trained: software and hardware.
-  * How did training take.
-  * Training curves (loss vs epoch for test/train).
-  * How did you decide to stop training.
-  * Any difficulties? How did you resolve them?
+  * Training took around 20-30 minutes to complete
+  * Based on previous literature and the robustness of my local machine, 5 repeats of the model were deemed appropriate to get decent performance
 
 ### Performance Comparison
 
-* Clearly define the key performance metric(s).
-* Show/compare results in one table.
-* Show one (or few) visualization(s) of results, for example ROC curves.
+* Key performance metrics: f1_score, model.score()
 
 ### Conclusions
 
-* State any conclusions you can infer from your work. Example: LSTM work better than GRU.
+* The best learning rate for this dataset is 0.05 and the best network structure was (64, 32). The network was not incredibly complicated to get a decent result of 74% accuracy. Based on the complexity of environmental contamination, it is incredibly difficult to quantify, thus machine learning techniques are optimal to investigate environmental problems that may lead to negative health outcomes.
 
 ### Future Work
 
-* What would be the next thing that you would try.
-* What are some other studies that can be done starting from here.
+* The next step that can be made would be to try a regression neural network model to predict more specific levels of contamination rather than a simple binary classification
 
 ## How to reproduce results
 
-* In this section, provide instructions at least one of the following:
-   * Reproduce your results fully, including training.
-   * Apply this package to other data. For example, how to use the model you trained.
-   * Use this package to perform their own study.
-* Also describe what resources to use for this package, if appropirate. For example, point them to Collab and TPUs.
+* Packages used:
+ * pandas
+ * numpy
+ * matplotlib (for visualization)
+ * sklearn (for machine learning)
+   * MinMaxScalar from sklearn
+   * shuffle from sklearn
+   * MLPClassifier from sklearn
+   * KFold from sklearn
+   * f1_score from sklearn
+  
+* Documentation for pandas: https://pandas.pydata.org/docs/ 
+* Documentation for numpy: https://numpy.org/doc/
+* Documentation for matplotlib: https://matplotlib.org/stable/index.html
+* Documentation for sklearn: https://scikit-learn.org/stable/
 
 ### Overview of files in repository
 
-* Describe the directory structure, if any.
-* List all relavent files and describe their role in the package.
-* An example:
-  * utils.py: various functions that are used in cleaning and visualizing data.
-  * preprocess.ipynb: Takes input data in CSV and writes out data frame after cleanup.
-  * visualization.ipynb: Creates various visualizations of the data.
-  * models.py: Contains functions that build the various models.
-  * training-model-1.ipynb: Trains the first model and saves model during training.
-  * training-model-2.ipynb: Trains the second model and saves model during training.
-  * training-model-3.ipynb: Trains the third model and saves model during training.
-  * performance.ipynb: loads multiple trained models and compares results.
-  * inference.ipynb: loads a trained model and applies it to test data to create kaggle submission.
+* Dataset csv file: water_pollution_disease.csv
+* Jupyter notebook with steps: Kaggle Tabular Data.ipynb
 
-* Note that all of these notebooks should contain enough text for someone to understand what is happening.
-
-### Software Setup
-* List all of the required packages.
-* If not standard, provide or point to instruction for installing the packages.
-* Describe how to install your package.
 
 ### Data
 
-* Point to where they can download the data.
-* Lead them through preprocessing steps, if necessary.
-
-### Training
-
-* Describe how to train the model
-
-#### Performance Evaluation
-
-* Describe how to run the performance evaluation.
+* Where to download the data: https://www.kaggle.com/datasets/khushikyad001/water-pollution-and-disease 
 
 
 ## Citations
 
-* Provide any references.
+* All relevant information is contained in the Kaggle Dataset: https://www.kaggle.com/datasets/khushikyad001/water-pollution-and-disease
+* Information on how to develop a neural network model: https://scikit-learn.org/stable/modules/neural_networks_supervised.html#multi-layer-perceptron
+* EPA guidelines: https://www.epa.gov/lead/lead-policy-and-guidance
 
 
 
