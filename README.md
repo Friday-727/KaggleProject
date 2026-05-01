@@ -7,10 +7,7 @@
 
 ## Overview
 
-  * **Definition of the tasks / challenge** The task, is to use a 19 features to predict if the water would have a higher contamination of lead, greater than or equal to 15.0 ppm versus low contamination of lead, lower than 15.0 ppm
-    
-  * **Your approach** The approach in this repository formulates the problem as classification task, using deep sequential neural networks as the model with the 19 numerical features as input. We compared the performance of 4 different network architectures, and 5 different learning rates.
-  * **Summary of the performance achieved** Our best model was able to correctly classify high versus low lead contaminated water 77.3% of the time. The overall accuracy of this classifier, after running 5 repeats of 5 randomized batches (kf split) is 74.8%
+The task is to use 19 features to predict if the water would have a higher contamination of lead, greater than or equal to 15.0 ppm versus low contamination of lead, lower than 15.0 ppm. The approach in this repository formulates the problem as a classification task, using deep sequential neural networks as the model with 19 numerical input features. We compared the performance of 4 different network architectures, and 5 different learning rates. Our best model was able to correctly classify high versus low lead contaminated water 77.3% of the time. The overall accuracy of this classifier, after running 5 repeats of 5 randomized batches (kf split) is 74.8%.
 
 ## Summary of Workdone
 
@@ -18,7 +15,7 @@
 
 * Data: https://www.kaggle.com/datasets/khushikyad001/water-pollution-and-disease 
   * Type: numeric and categorical
-    * Input: CSV file of features
+    * Input: CSV file of features (19 numerical features, 5 categorical features)
     * output: 1 feature selected from CSV file of features that would be a good indicator of good versus poor water quality
   * Size:
     * Number of Rows: 2,000
@@ -60,6 +57,8 @@
 ### Performance Comparison
 
 * Key performance metrics: f1_score, model.score()
+* f1_score indicated ... accuracy of the model
+* model.score() is an internal method in the defined model that compares predicted value with ground truth value, this indicated that ... of the data were correctly classified
 
 ### Conclusions
 
@@ -67,7 +66,7 @@
 
 ### Future Work
 
-* The next step that can be made would be to try a regression neural network model to predict more specific levels of contamination rather than a simple binary classification
+* The next step that can be made would be to try a regression neural network model to predict more specific levels of contamination rather than a simple binary classification. Additionally, it would be interesting to investigate the features further, because 74% accuracy for environmental contamination models indicates strong potential that there are major physical or chemical charactersitics that can help predict severity of water contamination.
 
 ## How to reproduce results
 
