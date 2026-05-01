@@ -57,8 +57,8 @@ The task is to use 19 features to predict if the water would have a higher conta
 ### Performance Comparison
 
 * Key performance metrics: f1_score, model.score()
-* f1_score indicated ... accuracy of the model
-* model.score() is an internal method in the defined model that compares predicted value with ground truth value, this indicated that ... of the data were correctly classified
+* f1_score indicated 0.6398 accuracy of the model (moderate), harmonic mean of precision and recall
+* model.score() is an internal method in the defined model that compares predicted value with ground truth value, this indicated that 74.8% of the data were correctly classified
 
 ### Conclusions
 
